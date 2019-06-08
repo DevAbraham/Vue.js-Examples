@@ -27,28 +27,38 @@ export default {
   data () {
     
     return {
-      numTareas:3,
+      numTareas:0,
       titulo:"Lista de tareas ",
-      tareas: [{
-            texto: 'Aprender Vue.js Basico',
-            terminada: false
-        },
-        {
-            texto: 'Aprender Vue.js Medio',
-            terminada: false
-        },
-        {
-            texto: 'Aprender Vue.js Avanzado',
-            terminada: false
-        },
-            ],
+      tareas: [],
     }
   },
   methods:{
     aumentarContador(){
       this.numTareas ++;
-    }
-  }
+    },
+  },
+  created() {
+      console.log("creado");
+      this.$http.get('/tareas.json')
+      .then(response =>{
+        console.log(response);
+        return response.data;
+        
+      })
+      .then(responseJson =>{
+        console.log(responseJson);
+        for(let id in responseJson){
+          let tarea ={
+            id:id,
+            texto:responseJson[id].texto,
+            terminada:responseJson[id].terminada
+          }
+          this.tareas.push(tarea);
+          this.aumentarContador();
+        }
+        
+      })
+    },
 }
 </script>
 

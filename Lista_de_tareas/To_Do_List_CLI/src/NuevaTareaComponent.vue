@@ -27,6 +27,10 @@ export default {
                 this.aumentarContador();
             }
             this.nuevaTarea = '';
+            this.$http.post('/tareas.json',{
+                texto:texto,
+                terminada:false
+            }).then(response => console.log(response));
         }
     }
 }
